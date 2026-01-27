@@ -245,6 +245,7 @@ Key environment variables:
 - `REDIS_URL` – Redis URL
 - `DATA_DIR` – base data directory (default: `data`)
 - `ARTIFACT_DIR` – model artifacts directory (default: `artifacts`)
+- `AUTO_TRAIN_ON_BOOT` – when `true`, train content + MF models on startup if artifacts are missing (useful for Hugging Face Spaces)
 
 See `.env.example` for a template.
 
@@ -293,6 +294,41 @@ The target deployment is a **Hugging Face Space** using the **Docker** runtime:
 
 See **`context/DEPLOYMENT.md`** for a detailed, step-by-step deployment guide
 covering Supabase, Upstash, and Hugging Face Spaces configuration.
+
+---
+
+## Run locally
+
+For a detailed, OS-specific local development guide (Windows PowerShell first,
+then macOS/Linux bash), including:
+
+- Required tools (Git, Python 3.11, Docker Desktop, Make)
+- Exact commands to clone, create a virtualenv, install dependencies
+- How to start Postgres + Redis via Docker Compose
+- Running Alembic migrations, seeding the DB, and training models
+- Using `make` targets and helper scripts (`scripts/run_local.*`)
+- Practical troubleshooting tips
+
+see **`context/RUN_LOCAL.md`**.
+
+---
+
+## Deploy for free
+
+To deploy RecAI on a **100% free stack**:
+
+- Hugging Face Docker Space (CPU-basic)
+- Supabase Postgres (free tier)
+- Upstash Redis (free tier)
+
+with step-by-step instructions for:
+
+- Creating Supabase and Upstash projects
+- Wiring `DATABASE_URL` and `REDIS_URL` into your Space (Secrets vs Variables)
+- Handling ephemeral storage in Spaces via `AUTO_TRAIN_ON_BOOT`
+- Verifying the deployment and debugging common issues
+
+see **`context/DEPLOY_FREE.md`**.
 
 ---
 

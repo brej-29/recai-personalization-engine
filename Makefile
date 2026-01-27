@@ -1,4 +1,4 @@
-PYTHON := python3
+PYTHON ?= python3
 COMPOSE ?= docker compose
 
 .PHONY: help install install-dev lint fmt format test run up down logs migrate seed train-content train-mf alembic-upgrade

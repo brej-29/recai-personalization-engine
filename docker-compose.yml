@@ -7,6 +7,10 @@ services:
       dockerfile: docker/Dockerfile
     env_file:
       - .env
+    environment:
+      # Inside the Docker network, the API should talk to the postgres/redis services by name.
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@postgres:5432/recai
+      REDIS_URL: redis://redis:6379/0
     depends_on:
       - postgres
       - redis

@@ -26,6 +26,13 @@ def create_app() -> FastAPI:
     async def root() -> dict[str, str]:
         return {"message": "RecAI Personalization Engine", "env": settings.env}
 
+    @app.on_event("startup")
+    async def on_startup() -> None:
+        # Optionally train models on startup when configured (no-op if disabled).
+        from app.services.auto_train import ensure_models_trained_if_missing
+
+        ensure_models_trained_if_missing()
+
     return app
 
 
