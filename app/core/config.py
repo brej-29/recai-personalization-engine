@@ -30,6 +30,10 @@ class Settings(BaseSettings):
     hybrid_weight_content: float = Field(default=0.35, validation_alias="HYBRID_WEIGHT_CONTENT")
     hybrid_weight_popular: float = Field(default=0.10, validation_alias="HYBRID_WEIGHT_POPULAR")
 
+    # Optional automatic training on startup when artifacts are missing.
+    # Useful for ephemeral environments like Hugging Face Spaces.
+    auto_train_on_boot: bool = Field(default=False, validation_alias="AUTO_TRAIN_ON_BOOT")
+
     # Optional simple rate limiting (per-IP, per-minute)
     rate_limit_enabled: bool = Field(default=False, validation_alias="RATE_LIMIT_ENABLED")
     rate_limit_requests_per_min: int = Field(default=60, validation_alias="RATE_LIMIT_REQUESTS_PER_MIN")
