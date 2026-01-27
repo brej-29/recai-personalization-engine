@@ -84,7 +84,7 @@ def create_item(payload: AdminCreateItemRequest, db: Session = Depends(get_db)) 
         title=payload.title,
         genres=genres_str,
         text=text,
-        metadata=payload.metadata,
+        metadata_=payload.metadata,
     )
     db.add(item)
     db.commit()
@@ -94,7 +94,7 @@ def create_item(payload: AdminCreateItemRequest, db: Session = Depends(get_db)) 
         title=item.title,
         genres=item.genres,
         text=item.text,
-        metadata=item.metadata,
+        metadata=item.metadata_,
         request_id=get_request_id(),
     )
 

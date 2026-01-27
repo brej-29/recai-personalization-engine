@@ -29,7 +29,7 @@ def get_item(item_id: int, db: Session = Depends(get_db)) -> ItemResponse:
         title=item.title,
         genres=_split_genres(item.genres),
         text=item.text,
-        metadata=item.metadata,
+        metadata=item.metadata_,
         request_id=get_request_id(),
     )
 
