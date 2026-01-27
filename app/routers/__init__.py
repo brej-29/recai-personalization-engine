@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from . import admin, health, items, recommend, stats, users, monitoring
+from . import admin, health, items, monitoring, recommend, stats, users
 
 api_router = APIRouter()
 api_router.include_router(health.router)

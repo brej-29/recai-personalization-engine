@@ -69,7 +69,6 @@ class ContentRecommender:
     def _explain(self, item_idx: int, source_idx: int) -> str:
         assert self.artifact is not None
         # For MVP, explanation is simple: reference the source title and overlapping genres.
-        item_title = self.artifact.item_titles[item_idx]
         source_title = self.artifact.item_titles[source_idx]
         return f"Because similar to '{source_title}'"
 

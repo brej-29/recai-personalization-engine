@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import argparse
 import logging
 import pickle
-from pathlib import Path
 
 import numpy as np
 from implicit.als import AlternatingLeastSquares
@@ -11,7 +11,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
-from app.db.models import Item
+from app.db.session import SessionLocal
 from app.services.model_registry import TrainingResult, register_model_version
 from app.training.data_prep import build_implicit_matrix, load_interactions, load_items
 from app.training.eval import evaluate_recommender

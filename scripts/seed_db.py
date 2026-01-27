@@ -86,7 +86,7 @@ def seed(database_url: str, data_dir: Path) -> None:
             batch_size = 10_000
             batch: list[Interaction] = []
             with ratings_path.open("r", encoding="latin-1") as f:
-                for idx, line in enumerate(f, start=1):
+                for _idx, line in enumerate(f, start=1):
                     user_id_str, movie_id_str, rating_str, ts_str = line.strip().split("::")
                     ts = datetime.fromtimestamp(int(ts_str), tz=timezone.utc)
                     batch.append(

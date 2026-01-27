@@ -1,30 +1,30 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
-from app.core.logging import get_request_id
 from app.core.exceptions import ValidationAppError
-from app.db.models import Item, ModelVersion
+from app.core.logging import get_request_id
+from app.db.models import Experiment, Item, ModelVersion
 from app.db.session import get_db
 from app.schemas.admin import (
-    ModelVersionResponse,
-    TrainResponse,
-    TrackEventRequest,
-    TrackEventResponse,
     AdminCreateItemRequest,
     AdminCreateItemResponse,
     ExperimentCreateResponse,
     ExperimentReportResponse,
     ExperimentReportVariant,
     ExperimentSummary,
+    ModelVersionResponse,
+    TrackEventRequest,
+    TrackEventResponse,
+    TrainResponse,
+)
+from app.services.ab_testing_service import (
+    assign_user_to_experiment,
+    get_experiment_report,
+    get_or_create_experiment,
+    log_click,
 )
 from app.services.cache_service import update_popularity_and_trending_counters
 from app.services.interaction_service import track_interaction
-from app.services.ab_testing_service import (
-    get_or_create_experiment,
-    assign_user_to_experiment,
-    log_click,
-    get_experiment_report,
-)
 from app.training.train import train_content_model, train_mf_model
 
 admin_router = APIRouter(prefix="/admin", tags=["admin"])

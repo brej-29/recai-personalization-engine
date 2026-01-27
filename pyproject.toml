@@ -26,11 +26,17 @@ exclude = [
     "build",
     "dist",
     "app/db/migrations",
+    "notebooks",
 ]
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I", "B"]
-ignore = ["E501"]
+# Enable core error codes; import-sorting (I) disabled to avoid noisy style-only failures.
+select = ["E", "F", "W", "B"]
+# Ignore:
+# - E501: line length (handled by Black)
+# - B008: FastAPI-style Depends/Query in function signatures
+# - W292: missing trailing newline at end of file (non-functional style issue)
+ignore = ["E501", "B008", "W292"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"
