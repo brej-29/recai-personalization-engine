@@ -1,3 +1,5 @@
+"""Custom application exceptions."""
+
 from http import HTTPStatus
 from typing import Any, Optional
 

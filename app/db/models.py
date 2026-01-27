@@ -44,8 +44,10 @@ class Item(Base):
     title: Mapped[str] = mapped_column(String(512), nullable=False)
     genres: Mapped[Optional[str]] = mapped_column(String(256), nullable=True)
     text: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    metadata: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB().with_variant(JSON, "sqlite"), nullable=True
+    metadata_: Mapped[Optional[Dict[str, Any]]] = mapped_column(
+        "metadata",
+        JSONB().with_variant(JSON, "sqlite"),
+        nullable=True,
     )
 
     interactions: Mapped[List["Interaction"]] = relationship(back_populates="item")

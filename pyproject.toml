@@ -7,7 +7,7 @@ requires-python = ">=3.11"
 [tool.black]
 line-length = 100
 target-version = ["py311"]
-exclude = """
+exclude = '''
 /(
     \.git
   | \.venv
@@ -15,20 +15,28 @@ exclude = """
   | dist
   | migrations
 )/
-"""
+'''
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-select = ["E", "F", "W", "I", "B"]
-ignore = ["E501"]
 exclude = [
     ".git",
     ".venv",
     "build",
     "dist",
     "app/db/migrations",
+    "notebooks",
 ]
+
+[tool.ruff.lint]
+# Enable core error codes; import-sorting (I) disabled to avoid noisy style-only failures.
+select = ["E", "F", "W", "B"]
+# Ignore:
+# - E501: line length (handled by Black)
+# - B008: FastAPI-style Depends/Query in function signatures
+# - W292: missing trailing newline at end of file (non-functional style issue)
+ignore = ["E501", "B008", "W292"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"

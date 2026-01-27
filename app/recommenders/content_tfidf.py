@@ -11,12 +11,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sqlalchemy.orm import Session
 
-from app.core.config import get_settings
 from app.db.models import Interaction, Item
 from app.services.model_registry import get_active_model_version
 
 logger = logging.getLogger(__name__)
-settings = get_settings()
 
 
 @dataclass
@@ -71,7 +69,6 @@ class ContentRecommender:
     def _explain(self, item_idx: int, source_idx: int) -> str:
         assert self.artifact is not None
         # For MVP, explanation is simple: reference the source title and overlapping genres.
-        item_title = self.artifact.item_titles[item_idx]
         source_title = self.artifact.item_titles[source_idx]
         return f"Because similar to '{source_title}'"
 

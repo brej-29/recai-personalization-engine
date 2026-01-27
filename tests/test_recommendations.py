@@ -1,3 +1,5 @@
+"""End-to-end tests for recommendation endpoints."""
+
 from datetime import datetime
 
 from fastapi.testclient import TestClient
@@ -7,6 +9,13 @@ from app.db.models import Interaction, Item, User
 
 
 def seed_basic_data(db: Session) -> None:
+    # Ensure a clean, deterministic state each time this helper is called.
+    # This avoids UNIQUE constraint errors when tests share the same database.
+    db.query(Interaction).delete()
+    db.query(Item).delete()
+    db.query(User).delete()
+    db.commit()
+
     user = User(id=1)
     item1 = Item(id=1, title="Item 1", genres="Action", text="Action movie")
     item2 = Item(id=2, title="Item 2", genres="Drama", text="Drama movie")

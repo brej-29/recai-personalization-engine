@@ -1,3 +1,5 @@
+"""Error handling utilities for the FastAPI application."""
+
 import logging
 from http import HTTPStatus
 from typing import Any, Dict

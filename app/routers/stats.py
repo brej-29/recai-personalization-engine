@@ -1,5 +1,5 @@
-from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
 
 from app.core.logging import get_request_id
 from app.db.models import Interaction, Item, ModelVersion, User
