@@ -11,12 +11,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sqlalchemy.orm import Session
 
-from app.core.config import get_settings
 from app.db.models import Interaction, Item
 from app.services.model_registry import get_active_model_version
 
 logger = logging.getLogger(__name__)
-settings = get_settings()
 
 
 @dataclass

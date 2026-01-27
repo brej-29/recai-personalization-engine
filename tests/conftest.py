@@ -1,8 +1,8 @@
 import os
 from typing import Generator
 
-import pytest
 from fastapi.testclient import TestClient
+import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 

@@ -20,8 +20,6 @@ exclude = '''
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-select = ["E", "F", "W", "I", "B"]
-ignore = ["E501"]
 exclude = [
     ".git",
     ".venv",
@@ -29,6 +27,10 @@ exclude = [
     "dist",
     "app/db/migrations",
 ]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+ignore = ["E501"]
 
 [tool.pytest.ini_options]
 minversion = "7.0"

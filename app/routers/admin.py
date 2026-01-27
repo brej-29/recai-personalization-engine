@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.core.logging import get_request_id
 from app.core.exceptions import ValidationAppError
-from app.db.models import Item, ModelVersion, Experiment
+from app.db.models import Item, ModelVersion
 from app.db.session import get_db
 from app.schemas.admin import (
     ModelVersionResponse,

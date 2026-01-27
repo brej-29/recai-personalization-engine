@@ -8,10 +8,7 @@ from typing import Any, Dict, Optional, Tuple
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 
-from app.core.config import get_settings
 from app.db.models import ModelVersion
-
-settings = get_settings()
 
 
 @dataclass

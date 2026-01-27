@@ -1,3 +1,5 @@
+"""End-to-end tests for recommendation endpoints."""
+
 from datetime import datetime
 
 from fastapi.testclient import TestClient
