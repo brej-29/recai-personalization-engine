@@ -58,7 +58,6 @@ def train_content_model(db: Session) -> TrainingResult:
     else:
         interactions_df = interactions_df.sort_values("ts")
         last = interactions_df.groupby("user_id").tail(1)
-        train = interactions_df.drop(last.index)
 
         # Build a simple recommender usage on the training interactions:
         from app.recommenders.content_tfidf import ContentModelArtifact, ContentRecommender
@@ -144,7 +143,6 @@ def train_mf_model(db: Session) -> TrainingResult:
     # Simple evaluation: for each user, use MF scores to recommend and compare to last item
     interactions_df = interactions_df.sort_values("ts")
     last = interactions_df.groupby("user_id").tail(1)
-    train = interactions_df.drop(last.index)
 
     user_recs = {}
     user_relevant = {}
@@ -180,9 +178,6 @@ def train_mf_model(db: Session) -> TrainingResult:
 
 if __name__ == "__main__":
     # Simple CLI entry point for manual training when running `python -m app.training.train`
-    import argparse
-    from app.db.session import SessionLocal
-
     parser = argparse.ArgumentParser(description="Train RecAI models")
     parser.add_argument("--model", choices=["content", "mf"], required=True)
     args = parser.parse_args()
