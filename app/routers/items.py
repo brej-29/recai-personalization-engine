@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from app.core.logging import get_request_id
@@ -37,7 +37,7 @@ def get_item(item_id: int, db: Session = Depends(get_db)) -> ItemResponse:
 @router.get("/{item_id}/similar", response_model=SimilarItemsResponse)
 def similar_items(
     item_id: int,
-    limit: int = 20,
+    limit: int = Query(20, ge=1, le=200),
     db: Session = Depends(get_db),
 ) -> SimilarItemsResponse:
     item = db.get(Item, item_id)

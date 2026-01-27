@@ -19,7 +19,8 @@ RUN pip install --upgrade pip \
 
 COPY . .
 
-EXPOSE 8000
+# Hugging Face Spaces expects the container to listen on PORT (default 7860)
+EXPOSE 7860
 
 RUN chmod +x docker/entrypoint.sh
 

@@ -9,6 +9,7 @@ from pydantic import ValidationError
 
 from .exceptions import AppError
 from .logging import get_request_id
+from .metrics import increment_error
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +86,7 @@ def init_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(Exception)
     async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:  # type: ignore[override]
         logger.exception("Unhandled exception: %s %s", request.method, request.url.path)
+        increment_error()
         return _error_response(
             status_code=HTTPStatus.INTERNAL_SERVER_ERROR,
             code="internal_error",

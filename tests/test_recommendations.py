@@ -33,3 +33,19 @@ def test_popular_recommendations(client: TestClient, db: Session) -> None:
     assert data["strategy"] == "popular"
     assert "items" in data
     assert isinstance(data["items"], list)
+
+
+def test_hybrid_recommendations_fallback_to_popular(client: TestClient, db: Session) -> None:
+    """Hybrid should gracefully fall back to popularity when models are not trained."""
+    seed_basic_data(db)
+    resp = client.get("/v1/recommendations", params={"user_id": 1, "strategy": "hybrid"})
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["user_id"] == 1
+    assert data["strategy"] == "hybrid"
+    assert "items" in data
+    assert isinstance(data["items"], list)
+    # Reasons list should be present for hybrid items
+    if data["items"]:
+        item = data["items"][0]
+        assert "reasons" in item

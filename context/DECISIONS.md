@@ -176,6 +176,138 @@ We want a **free-first** deployment story with low operational friction.
 
 ---
 
+## ADR-008 – Hybrid Recommender Weights and Fallback Ladder
+
+**Status:** Accepted  
+**Date:** 2024-01-02
+
+### Context
+
+We now have three recommenders:
+
+- Collaborative filtering (ALS via `implicit`).
+- Content-based TF‑IDF.
+- Popularity / trending baseline.
+
+We want:
+
+- A **single hybrid strategy** that combines these signals.
+- Explicit, configurable weights.
+- Robust behaviour in cold-start and partial-failure scenarios (missing models, new users).
+
+### Decision
+
+- Introduce a `HybridRecommender` that:
+
+  - Normalises scores within each component.
+  - Combines them with configurable weights:
+    - `hybrid_weight_mf = 0.55`
+    - `hybrid_weight_content = 0.35`
+    - `hybrid_weight_popular = 0.10`
+  - Re-normalises weights over available components (if MF or content is missing).
+
+- Implement a **fallback ladder**:
+
+  1. If the user has no interactions, use onboarding preferences + popularity.
+  2. If MF/content models are not ready, fall back to popularity.
+  3. When all three are available, use the weighted ensemble.
+
+- Expose hybrid as `strategy=hybrid` on `/v1/recommendations`.
+- Attach lightweight explanations per item (reasons list) derived from the contributing models.
+
+### Consequences
+
+- A single endpoint (`strategy=hybrid`) gives the best available signal for each user.
+- We can tune weights via environment/config without changing code.
+- Cold-start users and partially trained deployments still return sensible results.
+- Future work can refine the weighting scheme (e.g. per‑segment, per‑domain).
+
+---
+
+## ADR-009 – A/B Testing Framework and Metrics Aggregation
+
+**Status:** Accepted  
+**Date:** 2024-01-02
+
+### Context
+
+We need a minimal but real **online evaluation** loop:
+
+- Compare `hybrid` vs `popular` strategies.
+- Deterministically assign users to variants.
+- Track impressions and clicks, and derive CTR-like metrics.
+- Keep the design simple enough for a single-node HF Space.
+
+### Decision
+
+- Add three tables:
+
+  - `experiments(id, name, status, config, created_at)`  
+  - `assignments(id, user_id, experiment_id, variant, assigned_at)`  
+  - `events_agg(id, date, experiment_id, variant, impressions, clicks)`
+
+- Define a default experiment:
+
+  - Name: `hybrid_vs_popular`
+  - Variants: `["hybrid", "popular"]` (stored in `config` JSONB).
+
+- Deterministic assignment:
+
+  - Hash `(experiment_name, user_id)` via `utils.hashing.stable_hash`.
+  - Map the hash bucket to one of the variants.
+  - Persist the assignment once; subsequent requests reuse the stored row.
+
+- Event aggregation:
+
+  - Every `/v1/recommendations` call with `strategy in {"hybrid", "popular"}`:
+    - Look up the experiment + assignment.
+    - If the served strategy matches the assigned variant, increment **impressions** for that variant.
+  - Every `/v1/track` `click` event:
+    - Look up the assignment and increment **clicks** for the assigned variant.
+
+- Admin APIs:
+
+  - `POST /v1/admin/experiments/create` – ensure default experiment exists.
+  - `GET /v1/admin/experiments` – list experiments.
+  - `GET /v1/admin/experiments/{name}/report` – aggregate counts and CTR per variant.
+
+### Consequences
+
+- We have a **lightweight online evaluation loop** suitable for an MVP.
+- Assignment is stable per user and persists beyond code changes.
+- Metrics are aggregated daily in `events_agg`, small enough for HF Spaces.
+- The framework can be extended to more experiments and metrics later.
+
+---
+
+## ADR-010 – Free-First Infra: Supabase + Upstash + HF Spaces
+
+**Status:** Accepted  
+**Date:** 2024-01-02
+
+### Context
+
+The project aims to be deployable on **free tiers** with minimal operations work.
+
+### Decision
+
+- Use **Supabase Postgres** as the recommended managed Postgres for production-like environments.
+- Use **Upstash Redis** as the recommended managed Redis (serverless, pay-per-use).
+- Use **Hugging Face Spaces (Docker runtime)** as the primary hosting platform.
+- Document a clear path in `context/DEPLOYMENT.md` for setting up:
+
+  - Supabase project and `DATABASE_URL`.
+  - Upstash Redis and `REDIS_URL`.
+  - HF Space with Docker runtime and environment variables.
+
+### Consequences
+
+- A complete, reproducible deployment story using only free/low-cost services.
+- Supabase free tier may auto-pause; `/health` and the Supabase dashboard can be used to wake it.
+- No vendor-specific code is baked into the core application – env vars remain the abstraction layer.
+
+---
+
 ## How to Use This File
 
 - Before introducing new patterns (e.g. feature store, new model family), add an ADR explaining:

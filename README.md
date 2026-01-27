@@ -10,13 +10,19 @@ is general enough to support other domains (products, articles, etc.).
 
 - **FastAPI** + **Uvicorn** API
 - **Postgres** (Supabase in prod) + **SQLAlchemy 2.0** + **Alembic**
-- **Redis** (Upstash in prod) for caching per-user recommendations
+- **Redis** (Upstash in prod) for caching per-user recommendations and popularity signals
 - Recommenders:
   - Popular / Trending baseline
   - Content-based TF‑IDF similarity
   - Matrix factorization using `implicit` ALS
+  - **Hybrid ensemble** combining MF + content + popularity with configurable weights
 - Model artifacts stored under `artifacts/` (gitignored) with metadata in Postgres
 - Structured logging, global error handling, type hints
+- **Cold-start onboarding** with stored user preferences
+- **A/B testing framework** with deterministic assignment and CTR aggregation
+- **Monitoring**:
+  - `/metrics` Prometheus-style metrics
+  - `/dashboard` HTML overview page
 - Docker + docker-compose for local dev
 - GitHub Actions CI:
   - `ruff` lint
@@ -144,6 +150,9 @@ curl "http://localhost:8000/v1/recommendations?user_id=1&strategy=content"
 
 # Matrix factorization (ALS)
 curl "http://localhost:8000/v1/recommendations?user_id=1&strategy=mf"
+
+# Hybrid ensemble (MF + content + popularity)
+curl "http://localhost:8000/v1/recommendations?user_id=1&strategy=hybrid"
 ```
 
 Responses follow this general shape:
@@ -158,7 +167,11 @@ Responses follow this general shape:
       "title": "Star Wars (1977)",
       "score": 1234.0,
       "strategy": "popular",
-      "reason": "Popular item with 1234 interactions"
+      "reason": "Popular item with 1234 interactions",
+      "reasons": [
+        "Popular item with 1234 interactions",
+        "Trending among many users"
+      ]
     }
   ],
   "request_id": "..."
@@ -167,13 +180,55 @@ Responses follow this general shape:
 
 ### Track Interactions
 
-For now, `POST /v1/track` simply records interactions:
+`POST /v1/track` records interactions and feeds both the database and
+real-time popularity / A/B testing metrics:
 
 ```bash
 curl -X POST "http://localhost:8000/v1/track" \
   -H "Content-Type: application/json" \
   -d '{"user_id": 1, "item_id": 50, "event_type": "view"}'
 ```
+
+Valid `event_type` values: `view`, `click`, `rate`.
+
+Clicks are used as a proxy for engagement in the `hybrid_vs_popular` experiment.
+
+---
+
+### Cold-Start Onboarding
+
+To provide better recommendations for new users, you can capture their preferences:
+
+```bash
+curl -X POST "http://localhost:8000/v1/users/onboard" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_id": 123,
+    "preferred_genres": ["Action", "Sci-Fi"],
+    "preferred_keywords": ["space", "time travel"]
+  }'
+```
+
+The hybrid and popular recommenders will prioritise items matching these genres.
+
+---
+
+### Monitoring and A/B Testing
+
+- Basic monitoring metrics: `GET /metrics`
+- Lightweight HTML dashboard: `GET /dashboard`
+- A/B testing admin endpoints:
+
+  ```bash
+  # Ensure default experiment exists
+  curl -X POST "http://localhost:8000/v1/admin/experiments/create"
+
+  # List experiments
+  curl "http://localhost:8000/v1/admin/experiments"
+
+  # Get hybrid_vs_popular report
+  curl "http://localhost:8000/v1/admin/experiments/hybrid_vs_popular/report"
+  ```
 
 ---
 
@@ -236,20 +291,20 @@ The target deployment is a **Hugging Face Space** using the **Docker** runtime:
 3. Point the Space to run `docker/entrypoint.sh` as its entrypoint.
 4. Pre-train models and upload artifacts (or train in the Space on startup, if feasible).
 
-Further details (e.g. initialization strategies, health checks, experiments) will be covered in
-a follow-up prompt.
+See **`context/DEPLOYMENT.md`** for a detailed, step-by-step deployment guide
+covering Supabase, Upstash, and Hugging Face Spaces configuration.
 
 ---
 
-## Roadmap (Coming Next)
+## Roadmap
 
-- A/B testing and experiment tracking.
-- Improved cold-start handling.
-- More advanced models and hybrid recommenders.
-- Better observability: metrics and tracing.
+- Extend A/B testing and experiment tracking.
+- Improve cold-start handling for multi-domain scenarios.
+- Add tracing and richer observability.
 
 For architectural details and decisions, see the `context/` folder:
 - `context/GOAL.md`
 - `context/ARCHITECTURE.md`
 - `context/DECISIONS.md`
 - `context/METRICS.md`
+- `context/DEPLOYMENT.md`

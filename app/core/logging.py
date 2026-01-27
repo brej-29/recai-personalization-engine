@@ -9,6 +9,8 @@ from typing import Any, Callable, Dict, Optional
 from fastapi import Request
 
 from .config import get_settings
+from .metrics import record_request
+from .rate_limit import check_rate_limit
 
 request_id_ctx_var: ContextVar[Optional[str]] = ContextVar("request_id", default=None)
 
@@ -67,6 +69,10 @@ async def logging_middleware(request: Request, call_next: Callable) -> Any:
     request_id = request.headers.get("X-Request-ID", str(uuid.uuid4()))
     set_request_id(request_id)
 
+    # Optional per-IP rate limiting
+    client_ip = request.client.host if request.client else None
+    check_rate_limit(client_ip)
+
     logger = logging.getLogger("app.request")
     logger.info(
         json.dumps(
@@ -79,8 +85,10 @@ async def logging_middleware(request: Request, call_next: Callable) -> Any:
         )
     )
 
+    response: Any = None
     try:
         response = await call_next(request)
+        return response
     except Exception:
         logger.exception(
             json.dumps(
@@ -94,17 +102,18 @@ async def logging_middleware(request: Request, call_next: Callable) -> Any:
         raise
     finally:
         latency_ms = (time.time() - start_time) * 1000
+        status_code = getattr(response, "status_code", 500) if response is not None else 500
+        record_request(latency_ms=latency_ms, status_code=status_code)
         logger.info(
             json.dumps(
                 {
                     "event": "request_end",
                     "method": request.method,
                     "path": request.url.path,
-                    "status_code": getattr(response, "status_code", None),
+                    "status_code": status_code,
                     "latency_ms": round(latency_ms, 2),
                 }
             )
         )
-
-    response.headers["X-Request-ID"] = request_id
-    return response
+        if response is not None:
+            response.headers["X-Request-ID"] = request_id

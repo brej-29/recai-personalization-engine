@@ -68,8 +68,45 @@ def upgrade() -> None:
         sa.UniqueConstraint("name", "version", name="uq_model_versions_name_version"),
     )
 
+    op.create_table(
+        "experiments",
+        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column("name", sa.String(length=128), nullable=False, unique=True),
+        sa.Column("status", sa.String(length=32), nullable=False),
+        sa.Column("config", postgresql.JSONB(astext_type=sa.Text()), nullable=False),
+        sa.Column("created_at", sa.TIMESTAMP(timezone=True), nullable=False),
+    )
+
+    op.create_table(
+        "assignments",
+        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column("user_id", sa.Integer(), nullable=False),
+        sa.Column("experiment_id", sa.Integer(), nullable=False),
+        sa.Column("variant", sa.String(length=64), nullable=False),
+        sa.Column("assigned_at", sa.TIMESTAMP(timezone=True), nullable=False),
+        sa.ForeignKeyConstraint(["experiment_id"], ["experiments.id"], ondelete="CASCADE"),
+        sa.UniqueConstraint("user_id", "experiment_id", name="uq_assignments_user_experiment"),
+    )
+
+    op.create_table(
+        "events_agg",
+        sa.Column("id", sa.Integer(), primary_key=True, autoincrement=True),
+        sa.Column("date", sa.Date(), nullable=False),
+        sa.Column("experiment_id", sa.Integer(), nullable=False),
+        sa.Column("variant", sa.String(length=64), nullable=False),
+        sa.Column("impressions", sa.Integer(), nullable=False, server_default="0"),
+        sa.Column("clicks", sa.Integer(), nullable=False, server_default="0"),
+        sa.ForeignKeyConstraint(["experiment_id"], ["experiments.id"], ondelete="CASCADE"),
+        sa.UniqueConstraint(
+            "date", "experiment_id", "variant", name="uq_eventsagg_date_experiment_variant"
+        ),
+    )
+
 
 def downgrade() -> None:
+    op.drop_table("events_agg")
+    op.drop_table("assignments")
+    op.drop_table("experiments")
     op.drop_table("model_versions")
     op.drop_index("ix_interactions_user_item", table_name="interactions")
     op.drop_index("ix_interactions_item_ts", table_name="interactions")

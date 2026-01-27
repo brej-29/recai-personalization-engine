@@ -9,6 +9,7 @@ class RecommendedItem(BaseModel):
     score: float
     strategy: str
     reason: Optional[str] = None
+    reasons: Optional[List[str]] = None
 
 
 class RecommendationResponse(BaseModel):

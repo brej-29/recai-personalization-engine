@@ -23,6 +23,15 @@ class Settings(BaseSettings):
     data_dir: Path = Field(default=Path("data"), validation_alias="DATA_DIR")
     artifact_dir: Path = Field(default=Path("artifacts"), validation_alias="ARTIFACT_DIR")
 
+    # Hybrid recommender weights (normalized at runtime)
+    hybrid_weight_mf: float = Field(default=0.55, validation_alias="HYBRID_WEIGHT_MF")
+    hybrid_weight_content: float = Field(default=0.35, validation_alias="HYBRID_WEIGHT_CONTENT")
+    hybrid_weight_popular: float = Field(default=0.10, validation_alias="HYBRID_WEIGHT_POPULAR")
+
+    # Optional simple rate limiting (per-IP, per-minute)
+    rate_limit_enabled: bool = Field(default=False, validation_alias="RATE_LIMIT_ENABLED")
+    rate_limit_requests_per_min: int = Field(default=60, validation_alias="RATE_LIMIT_REQUESTS_PER_MIN")
+
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
