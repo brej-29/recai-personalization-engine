@@ -1,45 +1,24 @@
 [project]
-name = "recai-personalization-engine"
-version = "0.1.0"
-description = "RecAI - Multi-Domain Personalization Engine (MVP)"
+name = "kindred"
+version = "1.0.0"
+description = "Cross-media taste engine: recommend across anime, manga, manhwa, movies and series."
 requires-python = ">=3.11"
+dependencies = ["numpy>=2.0"]
 
-[tool.black]
-line-length = 100
-target-version = ["py311"]
-exclude = '''
-/(
-    \.git
-  | \.venv
-  | build
-  | dist
-  | migrations
-)/
-'''
+[project.optional-dependencies]
+pipeline = [
+  "requests>=2.32",
+  "scikit-learn>=1.5",
+  "scipy>=1.14",
+  "sentence-transformers>=3.0",
+  "pandas>=2.2",
+]
+dev = ["pytest>=8", "ruff>=0.6"]
 
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-exclude = [
-    ".git",
-    ".venv",
-    "build",
-    "dist",
-    "app/db/migrations",
-    "notebooks",
-]
-
-[tool.ruff.lint]
-# Enable core error codes; import-sorting (I) disabled to avoid noisy style-only failures.
-select = ["E", "F", "W", "B"]
-# Ignore:
-# - E501: line length (handled by Black)
-# - B008: FastAPI-style Depends/Query in function signatures
-# - W292: missing trailing newline at end of file (non-functional style issue)
-ignore = ["E501", "B008", "W292"]
 
 [tool.pytest.ini_options]
-minversion = "7.0"
-addopts = "-q"
 testpaths = ["tests"]
 pythonpath = ["."]
