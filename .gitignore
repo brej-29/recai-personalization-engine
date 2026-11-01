@@ -8,3 +8,5 @@ node_modules/
 web/dist/
 .claude/
 .env
+results/adapter_*.npz
+!results/adapter_gte-small.npz
