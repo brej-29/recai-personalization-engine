@@ -1,0 +1,1 @@
+{"n": 12809, "d": 256, "model": "gte-small", "weights": {"a": 1.5, "b": 0.5, "c": 0.1, "centered": 0.0}, "nnz": 111585, "tag_vocab": 484}
