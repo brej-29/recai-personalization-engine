@@ -55,6 +55,17 @@ Full tables, other encoders and per-direction numbers: [`results/xm_ablation.md`
 | H5 Franchise leakage inflates scores 1.5x or more | **Not supported** | ratio 1.11 |
 | H6 The anime/manga adapter helps movie to movie cold start | Mixed | see below |
 
+### Encoders, including a 2025 state-of-the-art embedding model
+
+| Encoder | Zero-shot | + adapter | Kindred (full) |
+|---|---:|---:|---:|
+| all-MiniLM-L6-v2 (22M) | 0.072 | 0.095 | 0.185 |
+| bge-small-en-v1.5 (33M) | 0.082 | 0.121 | 0.208 |
+| **gte-small (33M), shipped** | 0.121 | 0.141 | 0.217 |
+| Qwen3-Embedding-0.6B (600M) | 0.108 | 0.144 | 0.230 |
+
+Test NDCG@10. Qwen3-Embedding is 6% better than gte-small on the full system but is 18 times larger than a browser can reasonably download, and the encoder was picked on the validation split, where gte-small led (0.208 against 0.202). The adapter helps every encoder, most for the weakest.
+
 ### What this says
 
 * Raw sentence embeddings are no better than curated tags, which was the opposite of my expectation. Learning a small adapter from same-medium recommendation edges closes the gap, and the learned embedding and the tags are complementary: together they are 53% better than either baseline alone.
