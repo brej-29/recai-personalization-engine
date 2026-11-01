@@ -106,6 +106,9 @@ def ml() -> dict | None:
 if __name__ == "__main__":
     OUT.parent.mkdir(parents=True, exist_ok=True)
     silo = json.loads((R / "silo.json").read_text(encoding="utf-8"))
-    out = {"xm": xm(), "ml": ml(), "silo": silo}
+    data = OUT.parent
+    sizes = {f.name: f.stat().st_size for f in data.iterdir() if f.name != "evidence.json"}
+    meta = json.loads((data / "meta.json").read_text(encoding="utf-8"))
+    out = {"xm": xm(), "ml": ml(), "silo": silo, "payload": {"bytes": sizes, "n": meta["n"], "d": meta["d"]}}
     OUT.write_text(json.dumps(out, separators=(",", ":")), encoding="utf-8")
     print("evidence written", OUT.stat().st_size, "bytes; xm mode", out["xm"]["mode"])

@@ -21,3 +21,4 @@ Raw pulls are gitignored under `data/raw/` and never redistributed. The repo shi
 * The AniList sample is the most popular titles, so obscure works are absent and popularity bias is baked into the catalogue.
 * Movies and series are chosen by IMDb vote count (at least 40,000 for movies, 20,000 for series), which skews toward English-language and recent titles.
 * Japanese animation that IMDb also lists is removed from the live-action side by Wikidata genre and origin, so it appears once, as anime.
+* `docs/PREREGISTRATION.md` lists 1,185 anime with a manga or novel source, from an exploratory count made before the benchmark was written. The reproducible definition in `kindred/stats.py` gives 1,184 and is the number used everywhere else.
