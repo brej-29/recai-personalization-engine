@@ -1,0 +1,25 @@
+{
+  "min_rating": 2,
+  "titles": 5900,
+  "rec_edges_same_format": 49441,
+  "rec_edges_cross_format_within_manga_type": 578,
+  "rec_edges_anime_to_print_or_back": 0,
+  "anime_with_print_source_in_sample": 1184,
+  "by_medium_pair": {
+    "anime>anime": 22837,
+    "anime>anime-film": 928,
+    "anime-film>anime": 1462,
+    "anime-film>anime-film": 2044,
+    "manga>manga": 13960,
+    "manga>manhua": 28,
+    "manga>manhwa": 59,
+    "manhua>manga": 57,
+    "manhua>manhua": 1172,
+    "manhua>manhwa": 171,
+    "manhwa>manga": 105,
+    "manhwa>manhua": 158,
+    "manhwa>manhwa": 5438,
+    "novel>novel": 1600
+  },
+  "note": "AniList only lets users recommend within one media type (ANIME or MANGA)."
+}
