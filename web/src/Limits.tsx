@@ -81,7 +81,7 @@ export function Foot() {
         <p>
           Kindred is an unofficial, non-commercial portfolio project. Anime and manga data from the AniList API (not affiliated with AniList);
           movie and series lists from the IMDb non-commercial datasets and Wikidata; text signals computed from Wikipedia (CC BY-SA); MovieLens
-          25M from GroupLens for the sanity check. Cover art is loaded from AniList at display time. Nothing you type leaves your browser.
+          25M from GroupLens for the sanity check. Cover art is loaded at display time: anime and manga from AniList, series posters from <a href="https://www.tvmaze.com">TVmaze</a> (CC BY-SA). Nothing you type leaves your browser.
         </p>
         <p>
           <a href="https://github.com/brej-29/recai-personalization-engine">Source, benchmark code and pre-registration</a>
