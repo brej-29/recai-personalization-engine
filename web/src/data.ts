@@ -75,7 +75,8 @@ export function norm(s: string): string {
 
 export function coverUrl(cat: Catalog, i: number): string | null {
   const c = cat.c[i]
-  return c ? 'https://s4.anilist.co/file/anilistcdn/media/' + c : null
+  if (!c) return null
+  return c.startsWith('tv:') ? 'https://static.tvmaze.com/uploads/images/medium_portrait/' + c.slice(3) : 'https://s4.anilist.co/file/anilistcdn/media/' + c
 }
 
 export function sourceUrl(cat: Catalog, i: number): string {

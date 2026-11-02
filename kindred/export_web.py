@@ -13,6 +13,7 @@ import numpy as np
 OUT = Path("web/public/data")
 MEDIA = ["anime", "anime-film", "manga", "manhwa", "manhua", "novel", "movie", "series"]
 COVER_PREFIX = "https://s4.anilist.co/file/anilistcdn/media/"
+TVMAZE_PREFIX = "https://static.tvmaze.com/uploads/images/medium_portrait/"
 
 
 def load_rows() -> list[dict]:
@@ -39,7 +40,8 @@ def pack_catalog(rows: list[dict]) -> dict:
         cat["p"].append(r["pop"] or 0)
         cat["g"].append([idx(genres, g) for g in r["genres"][:5]])
         cat["k"].append([idx(tags, t["n"]) for t in r["tags"][:6]])
-        cat["c"].append((r["cover"] or "").removeprefix(COVER_PREFIX))
+        cover = r["cover"] or ""
+        cat["c"].append("tv:" + cover.removeprefix(TVMAZE_PREFIX) if cover.startswith(TVMAZE_PREFIX) else cover.removeprefix(COVER_PREFIX))
         cat["col"].append((r["color"] or "").lstrip("#"))
     cat.update(media=MEDIA, genres=list(genres), tags=list(tags), n=len(rows))
     return cat

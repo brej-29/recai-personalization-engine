@@ -76,7 +76,20 @@ def drop_first_sentence(text: str) -> str:
     return rest[1] if len(rest) == 2 else ""
 
 
+def tvmaze_posters() -> dict[str, str]:
+    path = RAW / "tvmaze.jsonl"
+    if not path.exists():
+        return {}
+    out = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        r = json.loads(line)
+        if r.get("image"):
+            out[r["imdb"]] = r["image"]
+    return out
+
+
 def load_live() -> list[dict]:
+    posters = tvmaze_posters()
     rows = []
     with gzip.open(RAW / "live_action.jsonl.gz", "rt", encoding="utf-8") as f:
         for line in f:
@@ -90,7 +103,8 @@ def load_live() -> list[dict]:
                 "id": f"im:{r['imdb']}", "medium": r["kind"], "family": "live",
                 "title": r["title"], "alt": None, "year": r["year"], "genres": r["genres"],
                 "tags": [], "text": mk_text(clean(r["text"], 1400), genres, []),
-                "score": round(r["rating"] * 10), "pop": r["votes"], "cover": None,
+                "score": round(r["rating"] * 10), "pop": r["votes"],
+                "cover": posters.get(r["imdb"]) if r["kind"] == "series" else None,
                 "color": None, "url": f"https://www.imdb.com/title/{r['imdb']}/",
             })
     return rows

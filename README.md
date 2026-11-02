@@ -118,9 +118,9 @@ make reproduce
 | Piece | Limit |
 |---|---|
 | Hosting | GitHub Pages: static, always on, no cold start. 1 GB site and 100 GB/month soft bandwidth limits; this site is about 6 MB |
-| Cover art | Hot-linked from AniList's CDN. If it is slow or blocked the typographic tile shows instead |
+| Cover art | Hot-linked from AniList's CDN (anime, manga) and TVmaze's CDN (series). Movies have no poster source that is free and clear without an account, so they show a typographic tile. If an image is slow or blocked the tile shows instead |
 | Compute | All in your browser. No API keys, no quota, nothing you type leaves the page |
 
 ## Data and credit
 
-Anime and manga data from the [AniList](https://anilist.co) API (unofficial, not affiliated), a bounded rate-limited sample. Movie and series lists from the IMDb non-commercial datasets and Wikidata; text signals from Wikipedia (CC BY-SA); MovieLens 25M from GroupLens for the sanity check. Terms checked and what ships: [`docs/DATA.md`](docs/DATA.md).
+Anime and manga data from the [AniList](https://anilist.co) API (unofficial, not affiliated), a bounded rate-limited sample. Movie and series lists from the IMDb non-commercial datasets and Wikidata; series posters from [TVmaze](https://www.tvmaze.com) (CC BY-SA, hot-linked); text signals from Wikipedia (CC BY-SA); MovieLens 25M from GroupLens for the sanity check. Terms checked and what ships: [`docs/DATA.md`](docs/DATA.md).
