@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://brej-29.github.io/kindred/sitemap.xml

@@ -4,10 +4,10 @@
 
 **Name one title you loved. Get its kin in anime, manga, manhwa, manhua, novels, movies and series.**
 
-[**Open the live app**](https://brej-29.github.io/recai-personalization-engine/) &nbsp;|&nbsp; [Read the case study](#the-problem-measured) &nbsp;|&nbsp; [Pre-registration](docs/PREREGISTRATION.md) &nbsp;|&nbsp; [Handoff and portfolio notes](HANDOFF.md)
+[**Open the live app**](https://brej-29.github.io/kindred/) &nbsp;|&nbsp; [Read the case study](#the-problem-measured) &nbsp;|&nbsp; [Pre-registration](docs/PREREGISTRATION.md) &nbsp;|&nbsp; [Handoff and portfolio notes](HANDOFF.md)
 
-![CI](https://github.com/brej-29/recai-personalization-engine/actions/workflows/ci.yml/badge.svg)
-![Web](https://github.com/brej-29/recai-personalization-engine/actions/workflows/web.yml/badge.svg)
+![CI](https://github.com/brej-29/kindred/actions/workflows/ci.yml/badge.svg)
+![Web](https://github.com/brej-29/kindred/actions/workflows/web.yml/badge.svg)
 ![Hosting](https://img.shields.io/badge/hosting-GitHub%20Pages%20(free)-3cc8ff)
 ![Server](https://img.shields.io/badge/server-none-6fe05c)
 ![License](https://img.shields.io/badge/license-MIT-ffd24a)

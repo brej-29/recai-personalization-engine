@@ -3,13 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kindred</title>
-    <meta name="description" content="Name one title you loved and find its kin across anime, manga, manhwa, manhua, novels, films and series. Measured against a published benchmark." />
+    <title>Kindred: find manga, manhwa, anime, movies and series like the one you loved</title>
+    <meta name="description" content="Free recommender that crosses media. Name one anime, manga, manhwa, manhua, novel, movie or series you loved and get similar titles in every medium. Runs in your browser, no sign-up." />
+    <meta name="keywords" content="anime like, manga like, manhwa recommendations, manhua, light novel, movies like, series like, cross-media recommendation, what to read next, what to watch next" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#0c0b0a" />
+    <link rel="canonical" href="https://brej-29.github.io/kindred/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kindred" />
+    <meta property="og:title" content="Kindred: find manga, manhwa, anime, movies and series like the one you loved" />
+    <meta property="og:description" content="Name one title you loved and get its kin across anime, manga, manhwa, manhua, novels, movies and series. Free, in your browser, benchmarked." />
+    <meta property="og:url" content="https://brej-29.github.io/kindred/" />
+    <meta property="og:image" content="https://brej-29.github.io/kindred/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Kindred wordmark drawn as a seven-segment display" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kindred: recommendations that cross anime, manga, manhwa, movies and series" />
+    <meta name="twitter:description" content="One title in, kin in every medium. Free, in your browser." />
+    <meta name="twitter:image" content="https://brej-29.github.io/kindred/og.png" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230c0b0a'/%3E%3Cpath d='M9 6v20M9 16l12-10M12 14l10 12' stroke='%23ff4a3d' stroke-width='3.4' fill='none'/%3E%3C/svg%3E" />
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://brej-29.github.io/kindred/#app",
+          "name": "Kindred",
+          "url": "https://brej-29.github.io/kindred/",
+          "description": "A free cross-media recommender. Name one anime, manga, manhwa, manhua, novel, movie or series you loved and get similar titles in every medium.",
+          "applicationCategory": "EntertainmentApplication",
+          "operatingSystem": "Any, in a web browser",
+          "browserRequirements": "JavaScript",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "image": "https://brej-29.github.io/kindred/og.png",
+          "isAccessibleForFree": true,
+          "license": "https://opensource.org/licenses/MIT",
+          "codeRepository": "https://github.com/brej-29/kindred",
+          "author": { "@type": "Person", "name": "Brejesh Balakrishnan", "url": "https://github.com/brej-29" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "How do I find manga or manhwa similar to an anime I liked?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Search the anime in Kindred and pick the Manga or Manhwa shelf. Kindred compares what each title is about (plot, genres and themes) with a taste model learned from fan recommendations and lists the closest titles in that medium." } },
+            { "@type": "Question", "name": "Does Kindred need an account or send my data anywhere?",
+              "acceptedAnswer": { "@type": "Answer", "text": "No. It is a static site. All ranking runs in your browser and nothing you type leaves the page." } },
+            { "@type": "Question", "name": "How accurate is it?",
+              "acceptedAnswer": { "@type": "Answer", "text": "On a pre-registered cross-medium benchmark Kindred scores NDCG@10 0.217 against 0.142 for the best non-learned baseline. Three of five hypotheses failed and are published. Labels are a proxy built from adaptation links, and movie and series results are not validated across media." } },
+            { "@type": "Question", "name": "Which media does it cover?",
+              "acceptedAnswer": { "@type": "Answer", "text": "12,809 popular titles: 1,600 anime, 500 anime films, 1,500 manga, 1,200 manhwa, 600 manhua, 500 novels, 5,400 movies and 1,509 series." } }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main style="font-family:system-ui,sans-serif;max-width:46rem;margin:3rem auto;padding:0 1rem;line-height:1.55">
+        <h1>Kindred: find anime, manga, manhwa, manhua, novels, movies and series like the one you loved</h1>
+        <p>Kindred is a free recommender that crosses media. Name one title you loved and it lists its closest kin in every medium: anime, anime films, manga, manhwa, manhua, light novels, movies and series. It covers 12,809 popular titles, runs entirely in your browser, needs no account and tracks nothing.</p>
+        <h2>How it works</h2>
+        <p>Fans of an anime and fans of its manga never rate things in the same place, so most sites cannot connect them. Kindred reads what each title is about and learns a small taste model from the recommendations that exist inside each medium. It was tested on a pre-registered benchmark and scores 0.217 NDCG@10 against 0.142 for the best baseline. Failed hypotheses and limits are published.</p>
+        <p><a href="https://github.com/brej-29/kindred">Source code, benchmark and case study</a></p>
+        <p>Loading the catalogue. This page needs JavaScript.</p>
+      </main>
+    </div>
     <noscript><p>Kindred runs entirely in your browser and needs JavaScript. The benchmark write-up is in the repository README.</p></noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>

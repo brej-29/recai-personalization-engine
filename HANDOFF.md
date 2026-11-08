@@ -6,10 +6,10 @@ Everything a new session, a recruiter conversation or a LinkedIn draft needs, in
 
 | | |
 |---|---|
-| Name | Kindred (repo: `brej-29/recai-personalization-engine`) |
+| Name | Kindred (repo: `brej-29/kindred`) |
 | Pitch | Name one title you loved, get its kin across anime, manga, manhwa, manhua, novels, movies and series. |
-| Live | https://brej-29.github.io/recai-personalization-engine/ |
-| Repo | https://github.com/brej-29/recai-personalization-engine |
+| Live | https://brej-29.github.io/kindred/ |
+| Repo | https://github.com/brej-29/kindred |
 | Default branch | `main` (you call it master). Old version tagged `backup/pre-rebuild-2026-11-02` |
 | Stack | Python (uv, numpy, scikit-learn, sentence-transformers, torch) for data and evaluation. React + Vite + TypeScript for the app. GitHub Actions and GitHub Pages. |
 | Cost | 0. Static site, no keys, no server, no quota. |
@@ -123,7 +123,7 @@ uv run python -m kindred.export_web --keep-atlas                 # repack web da
 uv run python -m kindred.export_evidence                         # refresh the numbers shown in the page
 ```
 
-Deploy: merging to `main` runs `pages.yml`, which builds `web/` and publishes to GitHub Pages. Pages was enabled with `gh api -X POST repos/brej-29/recai-personalization-engine/pages -f build_type=workflow`.
+Deploy: merging to `main` runs `pages.yml`, which builds `web/` and publishes to GitHub Pages. Pages was enabled with `gh api -X POST repos/brej-29/kindred/pages -f build_type=workflow`.
 
 ## 5. Problems faced and how they were solved
 
@@ -208,8 +208,8 @@ Deploy: merging to `main` runs `pages.yml`, which builds `web/` and publishes to
 >
 > It runs entirely in your browser from about 5 MB of files. No server, no keys, nothing you type leaves the page.
 >
-> Try it: https://brej-29.github.io/recai-personalization-engine/
-> Case study and code: https://github.com/brej-29/recai-personalization-engine
+> Try it: https://brej-29.github.io/kindred/
+> Case study and code: https://github.com/brej-29/kindred
 
 ### LinkedIn post 2: the failures
 
@@ -227,7 +227,7 @@ Deploy: merging to `main` runs `pages.yml`, which builds `web/` and publishes to
 >
 > Writing the thresholds first is what made the bad results easy to publish.
 >
-> https://github.com/brej-29/recai-personalization-engine
+> https://github.com/brej-29/kindred
 
 ### LinkedIn post 3: the interface and engineering
 
@@ -239,7 +239,7 @@ Deploy: merging to `main` runs `pages.yml`, which builds `web/` and publishes to
 >
 > Static files on GitHub Pages, so it cannot go to sleep and has no quota.
 >
-> Live: https://brej-29.github.io/recai-personalization-engine/
+> Live: https://brej-29.github.io/kindred/
 
 ### Carousel outline (8 slides)
 

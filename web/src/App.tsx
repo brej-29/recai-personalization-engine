@@ -61,7 +61,7 @@ export default function App() {
           <a href="#silo">The silo</a>
           <a className="keep" href="#scoreboard">Scoreboard</a>
           <a href="#limits">Limits</a>
-          <a className="keep" href="https://github.com/brej-29/recai-personalization-engine">Source</a>
+          <a className="keep" href="https://github.com/brej-29/kindred">Source</a>
           <div className="skin" role="group" aria-label="Display skin">
             <button aria-pressed={skin === 'led'} onClick={() => setSkin('led')}>LED</button>
             <button aria-pressed={skin === 'lcd'} onClick={() => setSkin('lcd')}>LCD</button>
