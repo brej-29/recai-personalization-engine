@@ -10,7 +10,7 @@ from pathlib import Path
 import requests
 
 OUT = Path("data/raw/tvmaze.jsonl")
-UA = {"User-Agent": "kindred-research/1.0 (https://github.com/brej-29/recai-personalization-engine)"}
+UA = {"User-Agent": "kindred-research/1.0 (https://github.com/brej-29/kindred)"}
 GAP = 1.0  # per-call spacing x WORKERS keeps the pool near 1.7 requests per second (limit: 20 per 10 s, a lookup costs 2)
 WORKERS = 8
 

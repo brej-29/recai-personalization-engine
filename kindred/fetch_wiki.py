@@ -12,7 +12,7 @@ import pandas as pd
 import requests
 
 RAW = Path("data/raw")
-UA = {"User-Agent": "kindred-research/1.0 (https://github.com/brej-29/recai-personalization-engine)"}
+UA = {"User-Agent": "kindred-research/1.0 (https://github.com/brej-29/kindred)"}
 MOVIE_MIN_VOTES, SERIES_MIN_VOTES = 40_000, 20_000
 
 

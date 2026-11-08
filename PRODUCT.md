@@ -40,7 +40,7 @@ Runs entirely client-side from static files (no server, no cold start, no quota)
 
 ## Brand Commitments
 
-Name: Kindred. Repo name stays recai-personalization-engine. Never use "AniList" as the product name; always state the app is unofficial where it appears.
+Name: Kindred. Repo name: kindred. Never use "AniList" as the product name; always state the app is unofficial where it appears.
 
 ## Evidence on Hand
 
